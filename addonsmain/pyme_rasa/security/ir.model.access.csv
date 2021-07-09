@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rasa_serverr_rel_manager,access_rasa_server_rel_manager,model_rasa_server,base.group_system,1,1,1,1
+access_events_rel_manager,access_rasa_events_rel_manager,model_events,base.group_system,1,1,1,1
+access_rasa_actions_rel_manager,access_rasa_actions_rel_manager,model_rasa_actions,base.group_system,1,1,1,1
+access_rasa_credentials_rel_manager,access_rasa_credentials_rel_manager,model_rasa_credentials,base.group_system,1,1,1,1
+access_rasa_endpoints_rel_manager,access_rasa_endpoints_rel_manager,model_rasa_endpoints,base.group_system,1,1,1,1
+access_rasa_functions_rel_manager,access_rasa_functions_rel_manager,model_rasa_functions,base.group_system,1,1,1,1

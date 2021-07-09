@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- This record will create the building block and its layout -->
+    <template id="indexpp" name="HTML Content">
+        <section class="s_references bg-gray-lighter">
+            <title>DialogFlow</title>
+            <center>
+			<table width="90%" border="0" cellspacing="10" cellpadding="10">
+  <tr>
+    <th scope="col"><center>
+	
+
+                    
+	
+	</center></th>
+    <th scope="col"><center>LLAMADAS</center></th>
+  </tr>
+</table>
+</center>
+
+        </section>
+    </template>
+
+    <!-- This record will create a preview of the building block in the left menu from where you choose the blocks -->
+    <template id="add_title_references_to_bar" inherit_id="website.snippets" name="Place into building blocks bar">
+        <xpath expr="//div[@id='snippet_structure']" position="inside">
+            <div class="o_panel_body">
+                <t t-snippet="website_maininformatica_block.indexpp"
+                   t-thumbnail="/website_maininformatica_block/static/src/img/blocks/main.png"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

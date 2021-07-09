@@ -1,0 +1,510 @@
+<odoo>
+  <data>
+
+<!-- 
+<record id="view_project_project_inherit_pyme_form" model="ir.ui.view">
+    <field name="name">view.project.project.inherit.pyme.form</field>
+    <field name="model">project.project</field>
+    <field name="inherit_id" ref="project.edit_project"/>
+    <field name="arch" type="xml">
+      <field name="partner_id" position="after">
+      <field name="tareaportalvisible" attrs="{'invisible' : [('partner_id', '=', False)]}"/>
+      </field>
+    
+    </field>
+  </record>
+
+-->
+	  <record model="ir.ui.view" id="view_productividad_project_task_search">
+        <field name="name">Tareas</field>
+        <field name="model">project.task</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+        <search string="Tasks">
+                    <field name="name" string="Tasks"/>
+                    <field name="tag_ids"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="stage_id"/> 
+					<field name="message_follower_ids" string="Seguidor contiene..." context="{'active_test': False}" filter_domain="[('message_follower_ids.partner_id','ilike',self)]"/>
+					<separator/>
+                    <filter string="TODAS las asignadas a mi" name="my_tasks" domain="[('user_id','=',uid)]"/>
+                    <filter string="TODAS en las que soy seguidor" name="my_followed_tasks" domain="[('message_is_follower', '=', True)]"/>
+                    <filter string="TODAS las sin Asignar a nadie" name="unassigned" domain="[('user_id', '=', False)]"/>
+                    <filter string="Borradas - Archivadas" name="inactive" domain="[('active','=',False)]"/>
+                    <separator/>
+					<filter string="Pendientes" name="pendientes" domain="['|', ['stage_id', '=', False], ['user_id', '=', uid]]"/>
+                    <separator/>
+                    <filter string="Late Activities" name="activities_overdue" domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]" help="Show all records which has next action date is before today"/>
+                    <filter string="Today Activities" name="activities_today" domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Future Activities" name="activities_upcoming_all" domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))                         ]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Asignado a" name="user" context="{'group_by':'user_id'}"/>
+                        <filter string="Etapa" name="stage" context="{'group_by':'stage_id'}"/>
+                    </group>
+                </search>
+          </field>
+    </record> 
+
+
+	  <record model="ir.ui.view" id="view_productividad_project_task_tree">
+        <field name="name">Tareas</field>
+        <field name="model">project.task</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">	
+        <tree decoration-bf="message_needaction==True" decoration-danger="date_deadline and (date_deadline&lt;current_date)" string="Tasks" default_order='create_date desc'>
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="sequence" invisible="not context.get('seq_visible', False)"/>
+                    <field name="create_date"/>
+					<field name="write_date"/>
+                    <field name="name"/>
+                    <field name="project_id" invisible="1"/>
+                    <field name="user_id" />
+                    <field name="date_deadline" />
+                    <field name="stage_id"/>
+                    <field name="message_follower_ids" widget="many2many_tags" />
+                </tree>
+          </field>
+    </record> 
+
+
+
+	  <record model="ir.ui.view" id="view_productividad_project_task_form">
+        <field name="name">Tareas</field>
+        <field name="model">project.task</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+        <form string="Task" class="o_form_project_tasks"  create="false">
+                    <header>
+                        <button name="action_assign_to_me" string="Asignarme Tarea" type="object" class="oe_highlight" attrs="{'invisible' : [('user_id', '!=', False)]}"/>
+                        <button name="122" invisible="1" string="Compartir" type="action" class="oe_highlight oe_read_only"/>
+                        <!-- <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"/> -->
+                    </header>
+                    <sheet string="Task">
+                    <h1>TAREAS</h1><br/>
+					<div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-tasks" type="object" name="action_open_parent_task" string="Parent Task" attrs="{'invisible' : [('parent_id', '=', False)]}" groups="project.group_subtask_project"/>
+                        <button name="action_subtask" type="object" class="oe_stat_button" icon="fa-tasks" attrs="{'invisible' : [('parent_id', '!=', False)]}" context="{'project_id': subtask_project_id, 'name': name, 'partner_id': partner_id}" groups="project.group_subtask_project">
+                            <field string="Sub-tasks" name="subtask_count" widget="statinfo"/>
+                        </button>
+                        <button name="194" type="action" attrs="{'invisible': [('rating_count', '=', 0)]}" class="oe_stat_button" icon="fa-smile-o" groups="project.group_project_rating">
+                            <field name="rating_count" string="Rating" widget="statinfo"/>
+                        </button>
+                        <button name="toggle_active" type="object" groups="base.group_user" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                        </button>
+                    </div>
+                    <div class="oe_title pr-0">
+                        <h1 class="d-flex flex-row justify-content-between">
+                            <!-- <field name="priority" widget="priority" class="mr-3"/> -->
+                            <field name="name" class="o_task_name text-truncate" placeholder="Asunto Tarea..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" required="1" attrs="{'readonly': [('parent_id', '!=', False)]}"/>
+                            <field name="user_id" required="1" class="o_task_user_field" options="{&quot;no_open&quot;: True}"/>
+                            <field name="legend_blocked" invisible="1"/>
+                            <field name="legend_normal" invisible="1"/>
+                            <field name="legend_done" invisible="1"/>
+                            <field name="kanban_state" widget="state_selection" class="ml-auto"/>
+                        </group>
+                        <group>
+                            <field name="stage_id" options="{'no_create': True}"/>
+                            <field name="create_date" readonly="1"/>
+					        <field name="write_date" readonly="1"/>
+                            <field name="date_deadline"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="description_page" string="Descripción">
+                            <field name="description" type="html"/>
+                            <div class="oe_clear"/>
+                        </page>
+						<page string="Seguimiento">
+                            <field name="seguimiento_id">
+							<tree delete="false" create="false">
+                                  <button name="" readonly="1" string="" icon="fa-level-up" attrs="{'invisible': [('model_name_destino', '!=', 'project.task')]}"/>
+                                  <button name="" readonly="1" string="" icon="fa-level-down" attrs="{'invisible': [('model_name_destino', '=', 'project.task')]}"/>
+								  <field name="model_name_destino" invisible="1"/>
+                                  <field name="write_date" string="Fecha"/>
+								  <field name="mail_message" invisible="1"/>
+								  <field name="model" invisible="1"/>
+                                  <field name="name" string="Descripción"/>
+								  <button type="object" name="action_open" string="Ver Documento"/>
+								  </tree>
+								  </field>
+						</page>
+                        <page name="extra_info" string="Extra Info">
+                            <group>
+                                <group>
+                                    <field name="sequence" groups="base.group_no_one" invisible="1"/>
+                                    <!-- <field name="cliente" attrs="{'readonly': [('parent_id', '!=', False)]}"/> -->
+                                    <field name="email_cc" groups="base.group_no_one"/>
+                                    <field name="child_ids" invisible="1"/>
+                                    <field name="subtask_project_id" invisible="1"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    <field name="displayed_image_id" groups="base.group_no_one"/>
+                                </group>
+                                <group>
+                                    <field name="project_id"  readonly="1" domain="[('active', '=', True)]"/>
+                                    <field name="clientesproyecto" invisible="1"/>
+                                    <field name="tareaportalvisible" invisible="1" attrs="{'invisible': [('project_id', '=', False)]}"/>
+                                    <field name="parent_id"  invisible="1" domain="[('parent_id', '=', False)]" attrs="{'invisible' : [('subtask_count', '&gt;', 0)]}" groups="project.group_subtask_project"/>
+                                   
+                                    <field name="email_from" invisible="1" attrs="{'readonly': [('parent_id', '!=', False)]}"/>                                   
+                                    <!-- <field name="date_last_stage_update" groups="base.group_no_one"/> -->
+                                </group>
+                                <group string="Working Time to Assign" attrs="{'invisible': [('working_hours_open', '=', 0.0)]}">
+                                    <field name="working_hours_open" string="Hours"/>
+                                    <field name="working_days_open" string="Days"/>
+                                </group>
+                                <group string="Working Time to Close" attrs="{'invisible': [('working_hours_close', '=', 0.0)]}">
+                                    <field name="working_hours_close" string="Hours"/>
+                                    <field name="working_days_close" string="Days"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+					<footer>
+					</footer>
+                </form>
+          </field>
+    </record>
+
+
+
+	  <record model="ir.ui.view" id="view_productividad_project_task_popup_form">
+        <field name="name">Tareas-Popup</field>
+        <field name="model">project.task</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+        <form string="Task" class="o_form_project_tasks">
+                    <header>
+                        <button invisible="1" name="action_assign_to_me" string="Asignarme Tarea" type="object" class="oe_highlight" attrs="{'invisible' : [('user_id', '!=', False)]}"/>
+                        <button name="122" invisible="1" string="Compartir" type="action" class="oe_highlight oe_read_only"/>
+                    </header>
+                    <sheet string="Task">
+                    <h1>TAREAS</h1><br/>
+					<div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-tasks" type="object" name="action_open_parent_task" string="Parent Task" attrs="{'invisible' : [('parent_id', '=', False)]}" groups="project.group_subtask_project"/>
+                        <button name="action_subtask" type="object" class="oe_stat_button" icon="fa-tasks" attrs="{'invisible' : [('parent_id', '!=', False)]}" context="{'project_id': subtask_project_id, 'name': name, 'partner_id': partner_id}" groups="project.group_subtask_project">
+                            <field string="Sub-tasks" name="subtask_count" widget="statinfo"/>
+                        </button>
+                        <button name="194" type="action" attrs="{'invisible': [('rating_count', '=', 0)]}" class="oe_stat_button" icon="fa-smile-o" groups="project.group_project_rating">
+                            <field name="rating_count" string="Rating" widget="statinfo"/>
+                        </button>
+                        <button name="toggle_active" type="object" groups="base.group_user" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                        </button>
+                    </div>
+                    <div class="oe_title pr-0">
+                        <h1 class="d-flex flex-row justify-content-between">
+                            <!-- <field name="priority" widget="priority" class="mr-3"/> -->
+                            <field name="name" class="o_task_name text-truncate" placeholder="Asunto Tarea..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"  attrs="{'readonly': [('parent_id', '!=', False)]}"/>
+                            <field name="user_id" class="o_task_user_field" options="{&quot;no_open&quot;: True}"/>
+                            <field name="legend_blocked" invisible="1"/>
+                            <field name="legend_normal" invisible="1"/>
+                            <field name="legend_done" invisible="1"/>
+                            <field name="kanban_state" widget="state_selection" class="ml-auto"/>
+                        </group>
+                        <group>
+                            <field name="stage_id" options="{'no_create': True}"/>
+                            <field name="date_deadline"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="description_page" string="Descripción">
+                            <field name="description" type="html"/>
+                            <div class="oe_clear"/>
+                        </page>
+						<page string="Seguimiento">
+                            <field name="seguimiento_id">
+							<tree delete="false" create="false">
+                                  <button name="" readonly="1" string="" icon="fa-level-up" attrs="{'invisible': [('model_name_destino', '!=', 'project.task')]}"/>
+                                  <button name="" readonly="1" string="" icon="fa-level-down" attrs="{'invisible': [('model_name_destino', '=', 'project.task')]}"/>
+								  <field name="model_name_destino" invisible="1"/>
+                                  <field name="write_date" string="Fecha"/>
+								  <field name="mail_message" invisible="1"/>
+								  <field name="model" invisible="1"/>
+                                  <field name="name" string="Descripción"/>
+								  <button type="object" name="action_open" string="Ver Documento"/>
+								  </tree>
+								  </field>
+						</page>
+                        <page name="extra_info" string="Extra Info">
+                            <group>
+                                <group>
+                                    <field name="sequence" groups="base.group_no_one"/>
+                                    <field name="cliente" invisible="1" attrs="{'readonly': [('parent_id', '!=', False)]}"/>
+                                    <field name="email_cc" groups="base.group_no_one"/>
+                                    <field name="parent_id" domain="[('parent_id', '=', False)]" attrs="{'invisible' : [('subtask_count', '&gt;', 0)]}" groups="project.group_subtask_project"/>
+                                    <field name="child_ids" invisible="1"/>
+                                    <field name="subtask_project_id" invisible="1"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    <field name="displayed_image_id" groups="base.group_no_one"/>
+                                </group>
+                                <group>
+                                    <field name="project_id" readonly="1" domain="[('active', '=', True)]"/>
+                                    <field name="clientesproyecto" invisible="1"  attrs="{'readonly': [('parent_id', '!=', False)]}"/>
+                                    <field name="parent_id"  invisible="1" domain="[('parent_id', '=', False)]" attrs="{'invisible' : [('subtask_count', '&gt;', 0)]}" groups="project.group_subtask_project"/>
+
+                                    <field name="email_from" invisible="1" attrs="{'readonly': [('parent_id', '!=', False)]}"/>                                   
+									<field name="date_assign" groups="base.group_no_one"/>
+                                    <field name="date_last_stage_update" groups="base.group_no_one"/>
+                                </group>
+                                <group string="Working Time to Assign" attrs="{'invisible': [('working_hours_open', '=', 0.0)]}">
+                                    <field name="working_hours_open" string="Hours"/>
+                                    <field name="working_days_open" string="Days"/>
+                                </group>
+                                <group string="Working Time to Close" attrs="{'invisible': [('working_hours_close', '=', 0.0)]}">
+                                    <field name="working_hours_close" string="Hours"/>
+                                    <field name="working_days_close" string="Days"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+					<footer>
+					    <button name="write" type="object" string="Guardar y Cerrar" class="oe_highlight"/>
+	                    <button name="unlink" string="Borrar y Cerrar" type="object" confirm="¿Estas Seguro que quieres Borrar esta tarea?"/>
+
+					</footer>
+                </form>
+          </field>
+    </record>
+
+
+
+
+
+
+
+  <record id="view_email_message_inherit_title_form" model="ir.ui.view">
+    <field name="name">view.email.message.inherit.title.form</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="arch" type="xml">
+      <field name="priority" position="replace">
+      <h1>TAREAS : </h1>
+      </field>
+    
+    </field>
+  </record>
+
+  <record id="view_email_message_inherit_helpdesk_form" model="ir.ui.view">
+    <field name="name">view.email.message.inherit.helpdesk.form</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="arch" type="xml">
+         <xpath expr="//page[1]" position="after">
+         <page string="Seguimiento">
+                            <field name="seguimiento_id">
+							<tree delete="false" create="false">
+                                  <button name="" readonly="1" string="" icon="fa-level-up" attrs="{'invisible': [('model_name_destino', '!=', 'project.task')]}"/>
+                                  <button name="" readonly="1" string="" icon="fa-level-down" attrs="{'invisible': [('model_name_destino', '=', 'project.task')]}"/>
+								  <field name="model_name_destino" invisible="1"/>
+                                  <field name="write_date" string="Fecha"/>
+								  <field name="mail_message" invisible="1"/>
+								  <field name="model" invisible="1"/>
+                                  <field name="name" string="Descripción"/>
+								  <button type="object" name="action_open" string="Ver Documento"/>
+								  </tree>
+								  </field>
+         </page>
+
+     </xpath>
+    
+    </field>
+  </record>
+
+
+	  <record model="ir.ui.view" id="view_mail_actividades_search">
+        <field name="name">Actividades</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">	
+           <search string="Next Activities" >
+                <field name="namemodel"/>
+                <field name="create_user_id"/>
+				<field name="user_id"/>
+				<field name="date_deadline"/>
+                <field name="summary"/>
+				<field name="state"/>
+				
+				
+                <separator/>
+                <filter string="Mis Actividades para Hoy" name="activities_my_today" domain="[('user_id', '=', uid),('date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Mis Actividades" name="activities_my" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Actividades Vencidas" name="activities_overdue" domain="[('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]" help="Show all records which has next action date is before today"/>
+                <filter string="Actividades para Hoy" name="activities_today" domain="[('date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Actividades Futuras" name="activities_upcoming_all" domain="[('date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))                         ]"/>
+                <group expand="0" string="Group By">
+                        <filter name="group_email_to" string="Creado por" context="{'group_by':'create_user_id'}"/>
+						<filter name="group_email_from" string="Origen" context="{'group_by':'res_model_id'}"/>
+                        <filter string="Vencimiento" name="group_date" context="{'group_by':'date_deadline'}"/>
+                </group>
+				
+				
+            </search>
+          </field>
+    </record> 
+
+
+	  <record model="ir.ui.view" id="view_mail_actividades_tree">
+        <field name="name">Actividades</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">	
+           <tree string="Next Activities" decoration-danger="date_deadline &lt; current_date" decoration-success="date_deadline == current_date" default_order="date_deadline" create="false">
+                <field name="namemodel"/>
+                
+                <field name="create_user_id"/>
+				<field name="user_id"/>
+				<field name="res_name"/>
+                <field name="activity_type_id"/>
+				<field name="activity_category"/>
+                <field name="summary"/>
+                <field name="date_deadline"/>
+				<field name="calendar_event_id"/>
+				<field name="state"/>
+            </tree>
+          </field>
+    </record> 
+
+
+	  <record model="ir.ui.view" id="view_mail_actividades_form">
+        <field name="name">Actividades</field>
+        <field name="model">mail.activity</field>
+        <field name="arch" type="xml">	
+<form string="Log an Activity" create="false">
+                <!-- <header>
+                        <button invisible="1" string="Programar" name="action_close_dialog" type="object" class="btn-primary"/>
+                        <button attrs="{'invisible': [('force_next', '=', True)]}" string="Realizado" name="action_done" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}"/>
+                        <button attrs="{'invisible': [('force_next', '=', True)]}" invisible="1" string="Done &amp; Schedule Next" name="action_done_schedule_next" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}"/>
+                        <button attrs="{'invisible': [('force_next', '=', False)]}" invisible="1" string="Done &amp; Launch Next" name="action_done_schedule_next" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}"/>
+                        <button string="Descartar" class="btn-secondary" special="cancel"/>
+                    </header> -->
+				<sheet string="Activity">
+
+                    <group attrs="{'invisible': [('has_recommended_activities','=',False)]}">
+                        <div class="o_row">
+                            <strong>Actividad Prioritaria</strong>
+                            <field name="recommended_activity_type_id" widget="selection_badge" domain="[('previous_type_ids', '=', previous_activity_type_id)]" nolabel="1"/>
+                        </div>
+                    </group>
+                    <group>
+                        <group>
+                         <field name="activity_category" invisible="1"/>
+                         <field name="namemodel"/>
+		 	             <field name="res_model" invisible="1"/>
+                         <field name="res_model_id" invisible="1"/>
+                         <field name="res_id" invisible="1"/>
+                         <field name="force_next" invisible="1"/>
+                         <field name="previous_activity_type_id" invisible="1"/>
+                         <field name="has_recommended_activities" invisible="1"/>
+                         <field name="activity_type_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+                         <field name="summary" placeholder="e.g. Discuss proposal"/>
+                         <button string="Abrir Documento Relacionado" icon="fa-bars" type="object" name="action_open_related_document" attrs="{'invisible': ['|', ('res_model', '=', False), ('res_id', '=', False)]}"/>
+						</group>
+                        <group>
+                            <field name="date_deadline"/>
+                            <field name="create_user_id"/>
+							<field name="user_id"/>
+                        </group>
+                    </group>
+
+					
+					<notebook>
+					<page string="Notas">
+                    <field name="note" placeholder="Log a note..."/>
+					</page>
+					<page string="Avanzado">
+					<group>
+					 <group>
+					     <field name="activity_type_id"/>
+				         <field name="activity_category"/>
+					 </group>
+					 <group>
+  			             <field name="calendar_event_id"/>
+				         <field name="state"/>
+					 </group>
+					</group>
+					</page>
+                   </notebook>
+                </sheet>
+            </form>
+          </field>
+    </record> 
+
+    <record model="ir.actions.act_window" id="action_mail_actividades">
+        <field name="name">Actividades</field>
+        <field name="res_model">mail.activity</field>
+        <field name="view_mode">tree,form</field>
+		<field name="domain"></field>
+        <field name="context">{"search_default_activities_my_today":1}</field>
+		<field name="search_view_id" ref="view_mail_actividades_search"/>
+		<field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_mail_actividades_tree')}),
+							(0, 0, {'view_mode': 'form', 'view_id': ref('view_mail_actividades_form')}),]"/>
+   </record>
+
+    <record model="ir.actions.act_window" id="action_project_task">
+        <field name="name">Tareas</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">tree,form,calendar,kanban</field>
+		<field name="search_view_id" ref="view_productividad_project_task_search"/>
+		<field name="context">{"search_default_pendientes":1}</field>
+		<field name="domain"></field>
+		<field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_productividad_project_task_tree')}),
+							(0, 0, {'view_mode': 'form', 'view_id': ref('view_productividad_project_task_form')}),]"/>
+   </record>
+
+
+
+        <menuitem id="menu_productividad"
+                  web_icon="pyme_productividad,static/menu/productividad.png"
+                  sequence="5"
+                  name="Productividad"/>
+
+            <!-- Opciones -->
+
+            <!-- <menuitem id="menu_calendario"
+                      name="Calendario"
+                      action="calendar.action_calendar_event"
+                      parent="menu_productividad"
+                      sequence="1"/>
+            -->
+			<menuitem id="menu_actividades"
+                      name="Actividades"
+                      action="action_mail_actividades"
+                      parent="menu_productividad"
+                      sequence="2"/>
+
+            <menuitem id="menu_tareas"
+                      name="Tareas"
+                      action="action_project_task"
+                      parent="menu_productividad"
+                      sequence="1"/>
+
+
+  </data>
+</odoo>

@@ -1,0 +1,11 @@
+.fa-reload:before {
+	content: "\f021";
+}
+
+.o_group_pager .o_pager_reload {
+	background-color: #fbfbfa;
+}
+
+.o_group_pager .o_pager_reload:hover {
+    background-color: #e2e2e0;
+}

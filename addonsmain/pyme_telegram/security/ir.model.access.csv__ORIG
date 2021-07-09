@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_share_social_list,share.social_user.list,pyme_telegram.model_share_social_list,base.group_user,1,1,1,1
+access_share_social_list_portal,share.social.list_portal,pyme_telegram.model_share_social_list,base.group_portal,1,1,1,1
+access_share_social_list_public,share.social.list_public,pyme_telegram.model_share_social_list,base.group_public,1,1,1,0
+access_share_social_list_website_public,share.social.list_website,pyme_telegram.model_share_social_list,,1,0,0,0
+access_pyme_telegrambot,access_pyme_telegrambot,model_pyme_telegrambot,base.group_system,1,1,1,1
+access_pyme_linnlu,access_pyme_linnlu,model_pyme_linnlu,base.group_system,1,1,1,1
+access_pyme_nlu,access_pyme_nlu,model_pyme_nlu,base.group_system,1,1,1,1
+access_pyme_telegram,access_pyme_telegram,model_pyme_telegram,base.group_system,1,1,1,1
+access_pyme_ficheronlu,access_pyme_ficheronlu,model_pyme_ficheronlu,base.group_system,1,1,1,1
+access_pyme_bot_botonestelgram,access_pyme_bot_botonestelgram,model_pyme_bot_botonestelgram,base.group_system,1,1,1,1
+access_pyme_bot_entradasnlu,access_pyme_bot_entradasnlu,model_pyme_bot_entradasnlu,base.group_system,1,1,1,1
+access_send_telegram,access_send_telegram,model_send_telegram,base.group_system,1,1,1,1
+
+
+

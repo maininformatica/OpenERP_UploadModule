@@ -1,0 +1,445 @@
+<odoo>
+  <data>
+  
+  <!-- **************************************** VISTAS  **************************************** -->
+  
+  <!-- Vista form ubicaciones -->
+  
+  
+  <record id="view_hotel_room_type_tree_inherit" model="ir.ui.view">
+            <field name="name">hotel.room.type.tree.inherit</field>
+            <field name="model">hotel.room.type</field>
+            <field name="inherit_id" ref="hotel.view_hotel_room_type_tree"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='name']" position="after">
+           <field name="activa" string="Telegram"/>
+		   <field name="pvpbase"/>
+		   
+		   <field name="id"/>
+		</xpath>
+		
+            </field>
+        </record>
+  
+ 
+  <record id="view_hotel_services_tree_inherit" model="ir.ui.view">
+            <field name="name">hotel.view_hotel_services_tree</field>
+            <field name="model">hotel.services</field>
+            <field name="inherit_id" ref="hotel.view_hotel_services_tree"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='list_price']" position="after">
+           <field name="activa"/>
+		   <field name="activahos"/>
+		</xpath>
+		
+            </field>
+        </record>
+
+
+  <record id="view_hotel_services_form_inherit" model="ir.ui.view">
+            <field name="name">hotel.view_hotel_services_form</field>
+            <field name="model">hotel.services</field>
+            <field name="inherit_id" ref="hotel.view_hotel_services_form"/>
+            <field name="arch" type="xml">
+		
+		<xpath expr="//page[1]" position="after">
+		<page string="Servicios Telegram">
+		<group><group>
+           <field name="activa"/>
+		   <field name="activahos"/>
+		   
+		   </group>
+		   <group string="Formularios">
+		   <field name="preguntatelegram"/>
+		   <!-- <field name="preguntatelegram2"/> -->
+
+		</group>
+		</group>
+
+		</page>
+		</xpath>
+		
+		
+            </field>
+        </record>
+
+  
+  
+ <record id="view_hotel_room_type_form_inherit" model="ir.ui.view">
+            <field name="name">hotel.room.type.form.inherit</field>
+            <field name="model">hotel.room.type</field>
+            <field name="inherit_id" ref="hotel.view_hotel_room_type_form"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='name']" position="replace">
+		</xpath>
+		
+		<xpath expr="//field[@name='categ_id']" position="replace">
+		</xpath>
+
+		<xpath expr="//form/sheet/group[1]" position="replace">
+		 <group>
+		 <group>
+		 <field name="image" widget="image" class="oe_avatar" nolabel="1"/>
+		 </group>
+		 <group>
+		    <field name="id"/>
+            <field name="name" string="Nombre"/>
+            <field name="activa" string="Telegram"/>
+			<field name="maxpeople" invisible="1"/>
+            <field name="pvpbase"/>
+            <field name="descripcion"/>
+			</group>
+			</group>
+		<notebook>
+		<page string="Más Imágenes">
+			<field name="imagenes"/>
+		</page>
+		<page string="Habitaciones">
+			<field name="relhab">
+			 <tree default_order='sequence'>
+			 <field name="sequence" widget="handle"/>
+			 <field name="name"/>
+			 <field name="floor_id"/>
+			 <field name="list_price" string="Room rate"/>
+             <field name="status"/>
+             <field name="capacity"/>
+			 <field name="activa"/>
+			</tree>
+			</field>
+		</page>
+		</notebook>
+		</xpath>
+		
+            </field>
+        </record>
+
+
+
+ <record id="view_hotel_room_amenities_type_form_inherit" model="ir.ui.view">
+            <field name="name">hotel.view_hotel_room_amenities_type_form.inherit</field>
+            <field name="model">hotel.room.amenities.type</field>
+            <field name="inherit_id" ref="hotel.view_hotel_room_amenities_type_form"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='name']" position="replace">
+		</xpath>
+		
+		<xpath expr="//field[@name='amenity_id']" position="replace">
+		</xpath>
+
+		<xpath expr="//form/sheet/group[1]" position="replace">
+		 <group>
+		 <group>
+		 <field name="image" widget="image" class="oe_avatar" nolabel="1"/>
+		 </group>
+		 <group>
+            <field name="name" string="Nombre"/>
+            <field name="descripcion"/>
+			</group>
+			</group>
+		</xpath>
+		
+            </field>
+        </record>
+
+
+ <record id="view_hotel_service_type_form_inherit" model="ir.ui.view">
+            <field name="name">hotel.view_hotel_service_type_form.inherit</field>
+            <field name="model">hotel.service.type</field>
+            <field name="inherit_id" ref="hotel.view_hotel_service_type_form"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='name']" position="replace">
+		</xpath>
+		
+		<xpath expr="//field[@name='service_id']" position="replace">
+		</xpath>
+
+		<xpath expr="//form/sheet/group[1]" position="replace">
+		 <group>
+		 <group>
+		 <field name="image" widget="image" class="oe_avatar" nolabel="1"/>
+		 </group>
+		 <group>
+            <field name="name" string="Nombre"/>
+            <field name="descripcion"/>
+     		<field name="activa"/>
+			<field name="conreserva"/>
+			</group>
+			</group>
+		</xpath>
+		
+            </field>
+        </record>
+
+
+<record id="view_project_task_pyme_form_inherit" model="ir.ui.view">
+            <field name="name">hotel.project_task_form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='description']" position="before">
+		<group>
+		 <group>
+		 <field name="respuesta"/>
+		 </group>
+		 </group>
+		 <label for="description"/>
+		</xpath>
+            </field>
+        </record>
+
+
+
+<record id="view_hotel_room_form_inherit" model="ir.ui.view">
+            <field name="name">hotel.view_hotel_room_form.inherit</field>
+            <field name="model">hotel.room</field>
+            <field name="inherit_id" ref="hotel.view_hotel_room_form"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='categ_id']" position="after">
+		<field name="activa" string="Serv. Alojado"/>
+		</xpath>
+            </field>
+        </record>
+
+<record id="view_hotel_service_type_tree_inherit" model="ir.ui.view">
+            <field name="name">view_hotel_service_type_tree_inherit</field>
+            <field name="model">hotel.service.type</field>
+            <field name="inherit_id" ref="hotel.view_hotel_service_type_tree"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='name']" position="after">
+		<field name="activa"/>
+		<field name="conreserva"/>
+		</xpath>
+            </field>
+        </record>
+
+
+<record id="view_hotel_service_type_form_inherit" model="ir.ui.view">
+            <field name="name">view_hotel_service_type_form_inherit</field>
+            <field name="model">hotel.service.type</field>
+            <field name="inherit_id" ref="hotel.view_hotel_service_type_form"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='name']" position="after">
+		<field name="activa"/>
+		
+		</xpath>
+            </field>
+        </record>
+
+
+<record id="view_hotel_reservation_form" model="ir.ui.view">
+            <field name="name">hotel_reservation.view_hotel_reservation_form.inherit</field>
+            <field name="model">hotel.reservation</field>
+            <field name="inherit_id" ref="hotel_reservation.view_hotel_reservation_form"/>
+            <field name="arch" type="xml">
+
+		<xpath expr="//field[@name='children']" position="replace">
+		<field name="children" invisible="1"/>
+		<field name="tiporest" readonly="1" invisible="1"/>
+		<field invisible="1" name="tipoaloj" options="{'no_create': True,'no_create_edit': True}"   attrs="{'invisible': [('tiporest','=', True)]}" />
+		<label for="estoyalojado"/>
+		<div>
+		<button name="button_estoyalojado" string="ChekIn" type="object" confirm="¿Deseas establecer el estado del Huésped como alojado?"/>
+		<field name="estoyalojado" class="oe_inline"/>
+		</div>
+		</xpath>
+		<xpath expr="//field[@name='adults']" position="replace">
+		<field name="adults" invisible="1"/>
+		</xpath>
+
+        <xpath expr="//field[@name='checkin']" position="replace">
+		<field name="checkin"/>
+		</xpath>
+        <xpath expr="//field[@name='checkout']" position="replace">
+		<field name="checkout"/>
+		</xpath>
+        <xpath expr="//page[1]" position="replace">
+        <page name="reservation_line" string="Reservas">
+			<group>
+				<group string="Habitaciones">                           
+				   <field name="reservation_line" colspan="4" nolabel="1">
+                      <form string="Reservation Line">
+                        <separator string="Tipo Habitación"/>
+                        <field name="name" invisible="1"/>
+                        <field name="categ_id" colspan="4" nolabel="1"/>
+                        <newline/>
+                        <separator string="Habitacion Seleccionada"/>
+                        <field name="reserve" colspan="4" string="Nº Hab" nolabel="1"/>
+                      </form>
+                      <tree>
+                            <field name="reserve" string="Número" widget="many2many_tags"  nolabel="1"/>
+                      </tree>
+				   </field>
+				</group>
+			<group string="Servicios">
+				<field name="relservicios" nolabel="1">
+					<tree>
+					<field name="name" string="Nombre"/>
+					<field name="fechahora"/>
+					</tree>
+				</field>
+			</group>
+		   </group>
+		</page>
+        <page string="Observaciones Reserva">
+			<field name="observaciones">
+			</field>
+         </page>
+
+	</xpath>
+            </field>
+        </record>
+
+
+<record id="view_partner_form_pyme_inherit" model="ir.ui.view">
+            <field name="name">view_partner_form_pyme_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+		<xpath expr="//field[@name='vat']" position="after">
+		<field name="estoyalojado"/>
+		</xpath>
+
+
+		<xpath expr="//page[1]" position="after">
+		<page string="Servicios Hotel">
+		<group>
+		<label for="enviarmensaje"/>
+		<div>
+		   <field name="enviarmensaje" class="oe_inline"/>
+		   <button type="object" string="Enviar" name="buttonenviarmensaje"  class="oe_inline"/>
+		</div>
+		<field name="mensajes">
+		  <tree>
+		  <field name="create_date"/>
+		  <field name="name"/>
+		  <field name="project_id"/>
+		   <field name="stage_id"/>
+		  </tree>
+		</field>
+		<field name="serviciosrel"/>
+		<field name="reserevas"/>
+		
+
+		
+		</group>
+
+		</page>
+		</xpath>
+
+
+
+            </field>
+        </record>
+
+
+
+
+
+<record model="ir.ui.view" id="serviciosreservados_view_search">
+      <field name="name">Buscador Servicios Generados</field>
+      <field name="model">hotel.reservation.services</field>
+      <field name="priority">0</field>
+      <field name="arch" type="xml">
+	  <search string="Buscador de Servicios">
+                    <field name="name" string="Nombre"/>
+					<field name="fechahora" string="Detalle"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Tipos de Servicio" name="tiposservicio" context="{'group_by':'tipodeservicio'}"/>
+						<filter string="Servicios" name="servicios" context="{'group_by':'name'}"/>
+						<filter string="Gestionados" name="gestionados" context="{'group_by':'gestionado'}"/>
+                        <filter string="Fecha Gestionados" name="fechagestionados" context="{'group_by':'gestionadofecha'}"/>
+                    </group>
+               </search>
+      </field>
+    </record>
+
+
+
+
+<record model="ir.ui.view" id="serviciosreservados_view_tree">
+      <field name="name">Listado de Servicios Reservados</field>
+      <field name="model">hotel.reservation.services</field>
+      <field name="priority">0</field>
+      <field name="arch" type="xml">
+		<tree editable="top" create="false" import="false">
+    		<field name="id" invisible="1"/>
+			<button type="object" name="marcagestionado" string="Gestionado"  attrs="{'invisible': [('gestionado','=', True)]}"/>
+			<field name="numreserva" readonly="1"/>
+			<field name="partner_id" readonly="1"/>
+			<field name="tipodeservicio" readonly="1"/>
+			<field name="name" options="{'no_create': True}"  attrs="{'readonly': [('gestionado','=', True)]}"/>
+			<field name="fechahora"  attrs="{'readonly': [('gestionado','=', True)]}"/>
+			<field name="obs"  attrs="{'readonly': [('gestionado','=', True)]}"/>
+			<field name="gestionado" readonly="1"/>
+			<field name="gestionadofecha" readonly="1"/>
+			<button type="object" name="quitagestionado" string="Vuelve a Pendiente"  attrs="{'invisible': [('gestionado','!=', True)]}"  confirm="¿Deseas Quitar la marca de gestionado de este Servicio?"/>
+		</tree>
+      </field>
+    </record>
+
+
+
+<record model="ir.ui.view" id="serviciosreservados_view_form">
+      <field name="name">Listado de Servicios Reservados</field>
+      <field name="model">hotel.reservation.services</field>
+      <field name="priority">0</field>
+      <field name="arch" type="xml">
+		<form create="false">
+		<group>
+		<group>
+    		<field name="id" invisible="1"/>
+			<field name="numreserva" readonly="1"/>
+			<field name="partner_id" readonly="1"/>
+			<field name="obs"  attrs="{'readonly': [('gestionado','=', True)]}"/>
+			</group>
+			<group>
+			<button type="object" name="marcagestionado" string="Gestionado"  attrs="{'invisible': [('gestionado','=', True)]}"/>
+			<button type="object" name="quitagestionado" string="Vuelve a Pendiente"  attrs="{'invisible': [('gestionado','!=', True)]}" confirm="¿Deseas Quitar la marca de gestionado de este Servicio?"/>
+			<field name="name"    attrs="{'readonly': [('gestionado','=', True)]}" options="{'no_create': True}"/>
+			<field name="fechahora"   attrs="{'readonly': [('gestionado','=', True)]}"/>
+			<field name="gestionado" readonly="1"/>
+			<field name="gestionadofecha" readonly="1"/>
+			
+		</group>
+		</group>
+
+
+		</form>
+      </field>
+    </record>
+
+
+
+
+        <record id="action_pyme_hotelextra_servreserv" model="ir.actions.act_window">
+            <field name="name">Listado de Servicios Reservados</field>
+            <field name="res_model">hotel.reservation.services</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('numreserva','!=', False)]</field>
+            <field name="context"></field>
+			<field name="search_view_id" ref="serviciosreservados_view_search"/>
+     		<field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('serviciosreservados_view_tree')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('serviciosreservados_view_form')})]"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Listado de Servicios reservados
+              </p>
+            </field>
+        </record>
+
+
+
+		 <menuitem name="Servicios Reservados"
+              id="menu_pyme_hotelextra_servreserv"
+              parent="hotel_reservation.menu_hotel_reservation"
+			  sequence="10"
+			  action="action_pyme_hotelextra_servreserv"/> 
+
+
+   </data>
+</odoo>
+                                                                                                                                      
+                                                                                                                                      

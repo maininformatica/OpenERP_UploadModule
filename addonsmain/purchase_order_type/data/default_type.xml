@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+  <record id="0_purchase_type" model="purchase.order.type">
+    <field name="name">Seleccione >></field>
+    <field name="type_doc"></field>
+    <field name="warehouse_id" ref="stock.warehouse0"/>
+    <field name="sequence_id" ref="purchase.seq_purchase_order"/>
+  </record>
+  <record id="pr_purchase_type" model="purchase.order.type">
+    <field name="name">OC20</field>
+    <field name="type_doc">Presupuesto</field>
+    <field name="warehouse_id" ref="stock.warehouse0"/>
+    <field name="sequence_id" ref="purchase.seq_purchase_order"/>
+  </record>
+  <record id="pv_purchase_type" model="purchase.order.type">
+    <field name="name">PC20</field>
+    <field name="type_doc">Pedido</field>
+    <field name="warehouse_id" ref="stock.warehouse0"/>
+    <field name="sequence_id" ref="purchase.seq_purchase_order"/>
+  </record>
+  <record id="ab_purchase_type" model="purchase.order.type">
+    <field name="name">AC20</field>
+    <field name="type_doc">Albaran</field>
+    <field name="warehouse_id" ref="stock.warehouse0"/>
+    <field name="sequence_id" ref="purchase.seq_purchase_order"/>
+  </record>
+  
+  
+</odoo>

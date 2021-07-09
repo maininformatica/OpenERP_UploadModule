@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="im_livechat_channel_rasa_view_form" model="ir.ui.view">
+    <field name="name">im_livechat.im_livechat_channel_rasa_view_form</field>
+    <field name="model">im_livechat.channel</field>
+    <field name="inherit_id" ref="im_livechat.im_livechat_channel_view_form"/>
+    <field name="arch" type="xml">
+      <field name="user_ids" position="before">
+        <field name="rasabot_online" string="¿Responde Bot?"/>
+		<field name="canaltelegram" invisible="1"/>
+		<field name="bot" readonly="1" domain="[('tipochatbot','=','odoobot')]"/>
+
+		<!--		
+		<label for="users"/>
+		<div>
+		<field name="users" options="{'no_create': True}" attrs="{'invisible': [('rasabot_online', '!=', True)]}" class="oe_inline"/>
+		<label for="users" string=" " class="oe_inline"/>
+		<button name="action_joinbot" string="+ Añade" class="oe_inline" type="object" attrs="{'invisible': [('rasabot_online', '!=', True)]}"/>
+		<button name="action_eliminabot" string="- Quita" class="oe_inline" type="object" attrs="{'invisible': [('rasabot_online', '=', True),('users', '!=', True)]}"/>
+		</div>
+		-->
+		
+      </field>
+    </field>
+  </record>
+
+  </odoo>

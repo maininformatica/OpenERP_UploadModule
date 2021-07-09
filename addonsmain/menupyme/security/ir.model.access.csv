@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_clasificar_tarea_manager,access_clasificar_tarea_manager,model_clasificar_tarea,sales_team.group_sale_manager,1,1,1,1
+access_etiquetas_relacion_manager,access_etiquetas_relacion_manager,model_etiquetas_relacion,sales_team.group_sale_manager,1,1,1,1
+
+

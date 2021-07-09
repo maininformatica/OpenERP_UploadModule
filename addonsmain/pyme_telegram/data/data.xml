@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- MEdia Social List -->
+<record id="telegram" model="share.social.list"><field name="name">Telegram</field><field name="code">telegram</field><field name="sequence" eval="8"/><field name="domain_media">https://telegram.me/</field><field name="parameter_url">share/url?url={postUrl}&amp;text={postTitle}</field><field name="image_svg">&lt;div class=&quot;fa fa-stack fa-1x text-center&quot;&gt;&lt;span class=&quot;fa fa-square fa-stack-2x ssButtonsTelegramBackground&quot;&gt;&lt;/span&gt;&lt;span class=&quot;ssButtonsSharingSvg ssButtonsTelegramSvg fa fa-stack-1x fa-inverse&quot;&gt;&lt;/span&gt;&lt;/div&gt;</field></record>
+    </data>
+</odoo>

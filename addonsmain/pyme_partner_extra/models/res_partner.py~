@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+from odoo import fields, models
+from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
+
+
+
+
+class addResPartnerRasa(models.Model):
+    _inherit = "res.partner"
+
+    rasa_telegramid = fields.Char("Telegram ID")
+    rasa_userid = fields.Char("Rasa USERID")
+    latitud = fields.Char("Latitud")
+    longitud = fields.Char("Longitud")
+    partner_gid = fields.Char("GiD")
+
+    ## tareas = fields.One2many('project.task', 'partner_id', string='Tareas / Mensajes Asignados')
+    ## reserevas = fields.One2many('hotel_reservation', 'partner_id', string='Reserva Habitaciones')
+    ## servicios = fields.One2many('hotel.reservation.services', 'partner_id', string='Servicios Reservados')
+    ## serviciosrel = fields.One2many('hotel.reservation.services', 'partner_id', string='Servicios Reservados')
+    ## imagenes = fields.One2many('hotel.image.extra', 'relacionp', string='Extra Images')
+
+    
+
+
+   

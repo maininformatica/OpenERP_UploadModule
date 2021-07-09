@@ -1,0 +1,46 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+      <record id="partner_rasa_category" model="res.partner.category">
+        <field name="name">Contacto RasaBot</field>
+      </record>
+      <record id="endpoints_rasa_webhok" model="rasa.endpoints">
+        <field name="name">End Point para WEBHOOK</field>
+        <field name="nameact">action_endpoint</field>
+        <field name="codigo">url: "http://localhost:5055/webhook"</field>
+        <field name="state">draft</field>
+      </record>
+      
+      <record id="credentials_rasa_rest" model="rasa.credentials">
+        <field name="name">REST para local</field>
+        <field name="nameact">rest</field>
+        <field name="codigo">## Sin configruaciones extra</field>
+        <field name="state">draft</field>
+      </record>
+      
+      <record id="credentials_rasa_api" model="rasa.credentials">
+        <field name="name">API Externa</field>
+        <field name="nameact">rasa</field>
+        <field name="codigo">url: "http://localhost:5002/api"</field>
+        <field name="state">draft</field>
+      </record>
+
+      <record id="rasa_server_localhost" model="rasa.server">
+        <field name="name">localhost</field>
+        <field name="url">localhost</field>
+        <field name="localhosturl">t</field>
+        <field name="urlx">XXX.XXX.XXX.XXX</field>
+        <field name="puertorasa">5005</field>
+        <field name="puertorasax">5002</field>
+        <field name="passwordx">1234</field>
+        <field name="backupfichero">t</field>
+        <field name="direccionagente">rasa</field>
+        <field name="state">draft</field>
+      </record>
+
+
+
+    </data>
+</odoo>

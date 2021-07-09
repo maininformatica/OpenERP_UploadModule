@@ -1,0 +1,194 @@
+<odoo>
+  <data>
+
+
+
+      <record model="ir.ui.view" id="view_conf_conflinnlu_search">
+        <field name="name">Buscador Respuestas Personalizadas</field>
+        <field name="model">pyme.linnlu</field>
+        <field name="arch" type="xml">
+            <search>
+					<field name="name"/> 
+					<field name="nlu"/>
+					<field name="entorno"/>
+					<field name="name"/> 
+					<field name="contestacion"/>
+            </search>
+        </field>
+    </record>
+
+
+
+      <record model="ir.ui.view" id="view_conf_conflinnlu_tree">
+        <field name="name">Respuestas Personalizadas</field>
+        <field name="model">pyme.linnlu</field>
+        <field name="arch" type="xml">
+            <tree default_order='create_date desc'>
+					<field name="nlu"/>
+					<field name="entorno"/>
+					<field name="name"/> 
+					<field name="entradas" widget="many2many_tags"/>
+					<field name="contestacion"/>
+            </tree>
+        </field>
+      </record>
+      <record model="ir.ui.view" id="view_conf_conflinnlu_form">
+        <field name="name">Respuestas Personalizadas</field>
+        <field name="model">pyme.linnlu</field>
+        <field name="arch" type="xml">
+            <form >
+			<sheet>
+			<group><group>
+				<field name="id" invisible="1"/> 
+				<field name="name"/>
+				<field name="nlu"  options="{'no_create': True}" />
+				<field name="entorno"/>
+				<field name="entradas" widget="many2many_tags"/>
+				<field name="entidades" widget="many2many_tags"/>
+				<field name="contestacion"/>
+			</group>
+			<group >
+            <label for="id" string="Variables"/>
+			<div>
+			<b>$respid</b> - ID de esta respuesta.<br/>
+			<b>$idcliente</b> - ID del Contacto.<br/>
+			<b>$cliente</b> - Nombre del Contacto.<br/>
+			<b>$chatid</b> - Id del Chat (TelegramID o Conversación).<br/>
+			<b>$docid</b> - Id del Documento (Ticket, Tarea...)<br/>
+            <br/>
+			</div>
+            <label for="id" string="Funciones"/>
+			<div>
+			<b>registro-paso1|$chatid</b> - Inicia el Registro.<br/>
+			<b>ver-mis-tickets|$idcliente</b> - Mostrar Tickets.<br/>
+			<b>ver-doc|$idcliente|$docid|[MODELO]</b> - Mostrar 1 Documento.<br/><br/>
+			- [MODELO] : helpdesk_lite.ticket, project.task
+			</div>
+			</group>
+			</group>
+			<notebook>
+			<page string="Botones">
+			  <field name="preguntaslin">
+			   <tree editable="top">
+			     <field name="name"/>
+				 <field name="tipo" attrs="{'invisible': [('tipochatbot', '=', 'odoobot')]}"/>
+				 <field name="datos" attrs="{'invisible': [('tipochatbot', '=', 'odoobot')]}"/>
+				 <field name="datos2" attrs="{'invisible': [('tipochatbot', '=', 'telegram')]}"/>
+				 <field name="tipochatbot" invisible="1"/>
+			   
+			   </tree>
+			  </field>
+			</page>
+			</notebook>
+			</sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_conf_confloficapython_tree">
+        <field name="name">Respuestas Lógica PYTHON</field>
+        <field name="model">pyme.ficheronlu</field>
+        <field name="arch" type="xml">
+            <tree default_order='create_date desc'>
+					<field name="nlu"/>
+					<field name="name"/> 
+					<field name="contestacion"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_conf_confloficapython_form">
+        <field name="name">Respuestas Lógica PYTHON</field>
+        <field name="model">pyme.ficheronlu</field>
+        <field name="arch" type="xml">
+            <form >
+			<sheet>
+			<group><group>
+				<field name="id" invisible="1"/> 
+				<field name="nlu"/>
+				<field name="name"/>
+				<field name="contestacion"/>
+			</group></group>
+			</sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_confloficapython">
+        <field name="name">Respuestas Lógica PYTHON</field>
+        <field name="res_model">pyme.ficheronlu</field>
+        <field name="view_mode">tree,form</field>
+		<field name="domain"></field>
+    </record>
+
+      <record model="ir.actions.act_window" id="action_conflinnlu">
+        <field name="name">Respuestas Personalizadas</field>
+        <field name="res_model">pyme.linnlu</field>
+        <field name="view_mode">tree,form</field>
+		<field name="domain"></field>
+    </record>
+  
+  
+  
+  
+		 <menuitem id="telegramconf_menu_conflinnlu" 
+					name="Respuestas Personalizadas" 
+                    action="action_conflinnlu"
+				    parent="ia_menu"
+					sequence="20" 
+					web_icon="base,static/description/modules.png"/>
+
+		 <menuitem id="telegramconf_menu_conflogicapython" 
+					name="Lógica Python" 
+                    action="action_confloficapython"
+				    parent="ia_menu"
+					sequence="25" 
+					web_icon="base,static/description/modules.png"/>
+
+
+
+
+
+    <record id="send_telegram_view_form" model="ir.ui.view">
+        <field name="name">send_telegram_view_form</field>
+        <field name="model">send_telegram</field>
+        <field name="arch" type="xml">
+            <form string="Envia Telegram">
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+						<field name="recipients" readonly="1"/>
+                        <field name="message"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <group>
+                        <span>
+                            <button string="Enviar" type="object" class="oe_highlight" name="action_send_telegram"/>
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                        </span>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <act_window id="send_telegram_action"
+        name="Envia Telegram"
+        src_model="res.partner"
+        res_model="send_telegram"
+        view_type="form"
+        view_mode="form"
+        key2="client_action_multi"
+        target="new"/>  
+
+    <record id="send_telegram_form_action" model="ir.actions.act_window">
+        <field name="name">Envia Telegram</field>
+        <field name="res_model">send_telegram</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+  
+   </data>
+</odoo>

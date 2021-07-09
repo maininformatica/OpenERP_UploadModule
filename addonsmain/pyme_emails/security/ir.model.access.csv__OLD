@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mail_message_etiquetas,access_mail_message_etiquetas,model_mail_message_etiquetas,base.group_system,1,1,1,1
+access_pyme_mail_channel,access_pyme_mail_channel,model_pyme_mail_channel,base.group_system,1,1,1,1
+access_mail_mail_delete,access_mail_mail_delete,model_mail_mail_delete,base.group_system,1,1,1,1
+access_mail_message_delete,access_mail_message_delete,model_mail_message_delete,base.group_system,1,1,1,1
+access_mail_clasificar,access_mail_clasificar,model_mail_clasificar,base.group_system,1,1,1,1
+## access_mail_relacion_model_id,access_mail_relacion_model_id,model_mail_relacion_model_id,base.group_system,1,1,1,1
+access_pyme_seguimiento,access_pyme_seguimiento,model_pyme_seguimiento,base.group_system,1,1,1,1

@@ -1,0 +1,20 @@
+<odoo>
+  <data>
+    <record id="view_res_user_notification_pyme_form" model="ir.ui.view">
+        <field name="name">view_res_user_notification_pyme_form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <data>
+                  <field name="signature" position="before">
+					<field name="origencliente"/>
+					<field name="notification_type"/>
+				    <field name="envia_telegram"/>
+					<field name="envia_bot"/>
+					<field name="envia_mail"/>
+                </field>
+            </data>
+        </field>
+    </record>
+	</data>
+</odoo>

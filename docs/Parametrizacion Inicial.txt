@@ -1,0 +1,32 @@
+
+Parametrizacion de HELPDESK
+
+
+- Modo Desarrollador > Arriba Derecha > Administrator >>  Preferencias
+   - Estado rasaBot Disabled
+   - Gestión de Notificaicon: Sin Notificar
+
+- AJUSTES > Ajustes > Opciones Generales > Sitio WEB > Conversaciones
+      Marcar Servidor Correo Externo y el Seudónimo de Dominio por ej "main-informatica" y GUARDAR
+	  Editar Servidores de Correo Entrante y Saliente (ES OBLIGATORIO HACER ESTO)
+
+
+
+## Emails
+- COMUNICACION > Emails Entrantes > Relacion
+
+  Hay un desplegable con dos Valores Tareas y Tickets. Hay que editarlos y en Model Especificar el Modelo de ingreso
+
+
+
+## Telegram Bot
+- AJUSTES > Telegram 
+  Crear Bot con Token
+
+
+## Notificaciones
+- Colocarse en Modo Desarrollador 
+- AJUSTES > Ajustes > Técnico > Estrucura de Base de Datos > Modelos
+     Editar los Modelos "Helpdesk Tickets" "Tarea" "Servidor POP/IMAP" "Canal de conversaciones" "Usuarios" 
+	 Marcar la opción Este Modelo puede Ser Notificado
+      

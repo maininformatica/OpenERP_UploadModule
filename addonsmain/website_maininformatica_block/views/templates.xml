@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="website_maininformatica_block.index">
+             <title>Llamadas Recibidas</title>
+			 
+			 <script type="text/javascript">
+
+setInterval("my_function();",10000); 
+ 
+    function my_function(){
+        window.location = location.href;
+    }
+
+</script>
+			 
+<font face="Arial, Helvetica, sans-serif" size="-1">
+<center> <h2> Llamadas / CHAT Recibidos </h2></center><br/><br/>
+<hr size="1"/>
+               <table border="0">
+			   <tr>
+			   		<td><b>Fecha Recepción</b></td>
+					<td><b>Tipo Llamada / Chat</b></td>
+				</tr>
+				<tr><td colspan="2"><hr size="1"/></td></tr>
+			
+			<t t-foreach="teachers" t-as="teacher" class="line_bottom line_top pb_font_10 text_bold">
+			
+				<tr>
+			   		<td><b><t class="line_bottom line_top pb_font_10 text_bold" t-esc="teacher.create_date"/></b></td>
+					<td><b><t class="line_bottom line_top pb_font_10 text_bold" t-esc="teacher.name"/></b></td>
+				</tr>
+				<tr><td class="line_bottom line_top pb_font_10 text_bold" colspan="2"><b>Contenido</b>: <t t-esc="teacher.descripcion"/></td></tr>
+				<tr><td colspan="2"><hr size="1"/></td></tr>
+				
+				
+			   
+			    
+            </t>
+			</table>
+			</font>
+        </template>
+		</data>
+		</openerp>

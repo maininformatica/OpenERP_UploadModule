@@ -1,0 +1,365 @@
+<odoo>
+  <data>
+
+<!-- **************************************** VISTAS **************************************** -->
+
+    <!-- Vista arbol account -->
+    <record model="ir.ui.view" id="account_tree_pyme">
+        <field name="name">Cuentas</field>
+        <field name="model">account.account</field>
+        <field name="arch" type="xml">
+            <tree string="Chart of accounts" toolbar="1">
+                    <field name="code"/>
+                    <field name="name"/>
+					<field name="debit"/>
+                    <field name="credit"/>
+					<field name="balance"/>
+
+            </tree>
+        </field>
+    </record>
+    
+	
+	
+	
+	
+	
+	<!-- LIBRO DE IVA  -->
+ 	<record model="ir.ui.view" id="librodefacturasiva_tree_pyme">
+        <field name="name">Libro de Facturas / Iva</field>
+        <field name="model">l10n.es.aeat.report</field>
+        <field name="arch" type="xml">
+			<tree string="Libro de Facturas">
+            	<field name="name" string="Nombre"/>
+            	<field name="year" string="Año" invisible="1"/> 
+           		<field name="period_type" string="Periodo Fiscal" invisible="1"/>
+            	<field name="state" string="Estado"/>
+
+        	</tree>
+	    </field>
+    </record>
+	
+	
+	
+	
+	
+ 	<record model="ir.ui.view" id="librodefacturasiva_form_pyme">
+        <field name="name">Libro de Facturas / Iva</field>
+        <field name="model">l10n.es.aeat.report</field>
+        <field name="arch" type="xml">
+<form string="AEAT report">
+            <header>
+                <button name="button_calculate" type="object" string="Calcular" states="draft" icon="fa-cogs"/>
+                <button name="button_recalculate" type="object" string="Recalcular" states="calculated" icon="fa-refresh"/>
+                <button name="button_confirm" string="Confirmar" type="object" states="calculated" icon="fa-check"/>
+                <button invisible="1" name="852" type="action" string="Export to BOE" states="done,posted" icon="fa-share"/>
+                <button name="button_recover" string="Volver a Borrador" type="object" states="cancelled" icon="fa-undo"/>
+                <button invisible="1" name="button_open_move" string="Show move" type="object" states="posted"/>
+                <button invisible="1" name="button_post" string="Create move" help="This button creates the regularization move for the selected report" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('allow_posting', '=', False)]}"/>
+                <button name="button_cancel" string="Cancelar" type="object" states="calculated,done" icon="fa-times"/>
+                <button name="button_unpost" string="Cancelar" type="object" states="posted" icon="fa-times"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,calculated,done,cancelled" statusbar_colors="{'cancelled': 'red', 'done': 'blue', 'posted': 'blue'}"/>           
+				
+				
+            </header>
+            <sheet>
+                <field name="allow_posting" invisible="1"/>
+                <field name="number" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <h1>
+                    <label for="name" string="Nombre "/>
+                    <field name="name" class="oe_inline" readonly="1"/>
+                </h1>
+                <group string="Declaración" colspan="4" name="group_declaration">
+                    <group>
+                        <field name="company_vat" invisible="1"/>
+                        <field name="year" string="Año"/>
+                        <field name="period_type" string="Periodo Fiscal"/>
+                        <label for="date_start" string="Fechas"/>
+                        <div>
+                            <field string="Desde" name="date_start" class="oe_inline"/>
+                            <span class="oe_inline"> - </span>
+                            <field string="Hasta" name="date_end" class="oe_inline"/>
+                        </div>
+                        <field invisible="1" name="export_config_id" groups="base.group_no_one"/>
+						<field name="contact_name" invisible="1"/>
+                        <field name="contact_phone" string="Teléfono"/>
+                        <field name="contact_email" invisible="1"/>
+                    </group>
+                    <group>
+                        <field invisible="1" name="journal_id" attrs="{'invisible': [('allow_posting', '=', False)]}"/>
+                        <field invisible="1" name="counterpart_account_id" attrs="{'invisible': [('allow_posting', '=', False)]}"/>
+                        <field invisible="1" name="representative_vat"/>
+                        <field invisible="1" name="support_type"/>
+                        <field invisible="1" name="calculation_date" readonly="1"/>
+                        <field name="partner_id" invisible="1"/>
+                        <field invisible="1" name="partner_bank_id"/>
+                        <field invisible="1" name="company_id" required="1" groups="base.group_multi_company"/>
+                    </group>
+                  
+                    <group string="Other parameters" name="group_other_parameters" invisible="1">
+                        <field name="type"/>
+                        <field name="previous_number" attrs="{'invisible': [('type', '==', 'N')], 'required': [('type', 'in', ('S', 'C'))]}"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+	
+	        </field>
+    </record>
+	
+
+
+ 	<record model="ir.ui.view" id="librodefacturasivain_form_pyme">
+        <field name="name">Libro de Facturas / Iva</field>
+        <field name="model">l10n.es.vat.book</field>
+		<field name="inherit_id" ref="librodefacturasiva_form_pyme"/>
+        <field name="arch" type="xml">
+<data><button name="852" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </button>
+
+            <header position="inside">
+                <button invisible="1" name="view_issued_invoices" string="Ver Facturas Emitidas" type="object" attrs="{'invisible':[('state', '=', 'draft')]}"/>
+                <button invisible="1" name="view_received_invoices" string="Ver Facturas Recibidas" type="object" attrs="{'invisible':[('state', '=', 'draft')]}"/>
+                <button name="export_xlsx" string="Exportar a Excel" type="object" icon="fa-file-excel" attrs="{'invisible':[('state', '=', 'draft')]}"/>
+            </header>
+            <field name="name" position="attributes">
+                <attribute name="readonly">False</attribute>
+            </field>
+            <group name="group_other_parameters" position="inside">
+                <field name="auto_renumber"/>
+            </group>
+            <xpath expr="//group[@name='group_declaration']" position="after">
+              <notebook>
+                <page string="Emitidas" name="invoices_issued">
+                    <group string="Facturas Emitidas" name="issued_invoices">
+                        <field name="issued_line_ids" nolabel="1"/>
+                    </group>
+                    <group string="Facturas Emitidas Rectificativas" name="issued_rectification_invoices">
+                        <field name="rectification_issued_line_ids" nolabel="1"/>
+                  </group>
+                    <group string="Detalle Impuestos" name="issued_tax_summary">
+                        <field name="issued_tax_summary_ids" nolabel="1"/>
+                    </group>
+                    <group string="Totales" name="issued_summary">
+                        <field name="issued_summary_ids" nolabel="1"/>
+                    </group>
+                </page>
+
+                <page string="Recibidas" name="received_invoices">
+                  <group string="Facturas Recibidas" name="received_invoices">
+                    <field name="received_line_ids" nolabel="1"/>
+                  </group>
+                  <group string="Facturas Recibidas Rectificativas" name="received_rectification_invoices">
+                    <field name="rectification_received_line_ids" nolabel="1"/>
+                  </group>
+                   <group string="Detalle Impuestos" name="received_tax_summary">
+                    <field name="received_tax_summary_ids" nolabel="1"/>
+                  </group>
+                   <group string="Totales" name="received_summary">
+                    <field name="received_summary_ids" nolabel="1"/>
+                  </group>
+
+                </page>
+              </notebook>
+            </xpath>
+         </data>
+
+	        </field>
+    </record>
+
+	
+	
+	
+    <!-- Vista form account -->
+    <record model="ir.ui.view" id="account_form_pyme">
+        <field name="name">Pyme - Contabilidad</field>
+        <field name="model">account.account</field>
+        <field name="arch" type="xml">
+            <form string="Account">
+                   <sheet>
+                       <group>
+                           <group>
+                             <field name="code" placeholder="code"/>
+                             <field name="name"/>
+                             <field name="user_type_id" widget="selection"/>
+
+                             <field name="tax_ids" widget="many2many_tags" invisible="1"/>
+                             <field name="tag_ids" widget="many2many_tags" domain="[('applicability', '!=', 'taxes')]" context="{'default_applicability': 'accounts'}" options="{'no_create_edit': True}" invisible="1"/>
+                             <field name="group_id" invisible="1"/>
+                             <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                             <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency"/>
+                             <field name="internal_type" invisible="1" readonly="1"/>
+                             <label for="reconcile" invisible="1"/>
+                             <div invisible="1">
+                                <field name="reconcile"/>
+                                <button name="action_open_reconcile" class="oe_link" type="object" string=" -&gt; Reconcile" attrs="{'invisible': [('reconcile', '=', False)]}"/>
+                             </div>
+                             <field name="deprecated" invisible="1"/>
+                           </group>
+						   <group>
+						   							 <field name="debit"/>
+							 <field name="credit"/>
+							 <field name="balance"/>
+						   </group>
+                           <group invisible="1">
+                               <div class="row">
+                                   <div class="col-md-11 col-md-offset-1 col-sm-12 no-margin-top" style="background-color: #eee">
+                                       <p class="text-center" style="font-weight: bold;">How do account types affect your reports?</p>
+                                       <div class="col-md-6 col-sm-6">
+                                           <div class="oe_account_help">
+                                                <p class="oe_account_font_help text-center">Profit &amp; Loss</p>
+                                                <p class="oe_account_font_help oe_account_font_title">Income</p>
+                                                <p class="oe_account_font_help oe_account_font_title">Minus Cost of Revenue</p>
+                                                <p class="oe_account_font_help" style="color: grey;border-top: 2px solid;border-bottom: 2px solid;">GROSS PROFIT</p>
+                                                <p class="oe_account_font_help oe_account_font_title">Plus Other Income</p>
+                                                <p class="oe_account_font_help oe_account_font_title">Minus Expenses</p>
+                                                <p class="oe_account_font_help oe_account_font_content">Expenses</p>
+                                                <p class="oe_account_font_help oe_account_font_content">Depreciation</p>
+                                                <p class="oe_account_font_help" style="color: grey;border-top: 2px solid;border-bottom: 2px solid;">NET PROFIT</p>
+                                                <div style="position: relative; width: 250px; height: 277px;" id="layer">
+                                                   <div style="position: relative; left: 0px; top: 0px; visibility: visible; width: 250px; height: 277px;">
+                                                     <svg pointer-events="none" overflow="auto" width="712.5" height="265" viewBox="-4 -4 712.5 265" style="position: relative; top: -4px; left: -4px; overflow: auto; visibility: visible; width: 400.5px; height: 265px;">
+                                                       <defs>
+                                                         <marker id="arrow" markerWidth="70" markerHeight="70" refx="10" refy="6" orient="auto">
+                                                             <path d="M2,1 L2,12 L10,6 L2,1" stroke="rgb(173,216,230)" fill="rgb(173,216,230)"/>
+                                                         </marker>
+                                                       </defs>
+                                                       <path pointer-events="visiblePainted" shape-rendering="auto" d="M 150 -110 q 270 100 150 150 t 160 120" fill="none" stroke-dasharray="8,3" stroke="rgb(173,216,230)" stroke-linecap="butt" stroke-width="4" stroke-opacity="1" stroke-linejoin="round" transform="matrix(1,0,0,1,0,0)" fill-opacity="1" style="marker-end: url(#arrow);">
+                                                       </path>
+                                                     </svg>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-6 col-sm-6">
+                                           <div class="oe_account_help">
+                                               <p class="oe_account_font_help text-center">Balance Sheet</p>
+                                               <p class="oe_account_font_help oe_account_font_title" style="color: grey;">Current Assets</p>
+                                               <p class="oe_account_font_help oe_account_font_content">Receivable Accounts</p>
+                                               <p class="oe_account_font_help oe_account_font_content">Prepayments</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Plus Bank</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Plus Fixed Assets</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Plus Non-Current Assets</p>
+                                               <p class="oe_account_font_help" style="color: grey;border-top: 2px solid;border-bottom: 2px solid;">TOTAL ASSETS</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Minus Current Liabilities</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Minus Credit Card Accounts</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Minus Payable Accounts</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Minus Non-Current Liabilities</p>
+                                               <p class="oe_account_font_help" style="color: grey;border-top: 2px solid;border-bottom: 2px solid;">NET ASSETS</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Equity</p>
+                                               <p class="oe_account_font_help oe_account_font_title">Plus Net Profit</p>
+                                               <p class="oe_account_font_help" style="color: grey;border-top: 2px solid;border-bottom: 2px solid;">TOTAL EQUITY</p>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </group>
+                       </group>
+                    </sheet>
+              </form>
+        </field>
+    </record>
+
+<!-- **************************************** ACCIONES **************************************** -->
+
+    <!-- Action Tareas -->
+    <record model="ir.actions.act_window" id="action_account_account_form_pyme">
+        <field name="name">Pyme - Cuentas Contables</field>
+        <field name="res_model">account.account</field>
+        <field name="view_mode">tree,kanban,form</field>
+		<field name="domain"></field>
+        <field name="context">{}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('account_tree_pyme')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('account_form_pyme')})]"/>
+    </record>
+
+
+
+
+    <record model="ir.actions.act_window" id="menu_libro_facturas_pyme">
+    	<field name="name"> Listado Facturas</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain"></field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="menu_libroiva_facturas_pyme">
+    	<field name="name"> Libro Facturas / Iva</field>
+        <field name="res_model">l10n.es.vat.book</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain"></field>
+        <field name="context">{}</field>
+		<field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('librodefacturasiva_tree_pyme')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('librodefacturasivain_form_pyme')})]"/>
+		
+		
+		
+    </record>
+                                                                                                         
+
+
+<!-- **************************************** ITEMS **************************************** -->
+
+    <menuitem name="Contabilidad"
+              id="item_action_contabilidad_pyme"
+              web_icon="pyme_contabilidad,static/menu/contabilidad.png"
+			  sequence="140"/>
+
+
+
+    <menuitem name="Cuentas contables"
+              id="item_action_cuentas_contables_pyme"
+              parent="item_action_contabilidad_pyme"
+              action="action_account_account_form_pyme"/>
+
+
+    <menuitem name="Asientos Contables"
+              id="item_action_apuntes_contables_pyme"
+              parent="item_action_contabilidad_pyme"
+              action="account.action_move_journal_line"/>
+
+    <menuitem name="Libro de Facturas"
+              id="item_action_librofacturas_pyme"
+              parent="item_action_contabilidad_pyme"/>
+
+    <menuitem name="Listado de Facturas"
+              id="item_action_listadofacturas_pyme"
+              parent="item_action_librofacturas_pyme"
+              action="menu_libro_facturas_pyme"/>
+
+    <menuitem name="Libro Facturas / Iva"
+              id="item_action_libroiva_pyme"
+              parent="item_action_librofacturas_pyme"
+              action="menu_libroiva_facturas_pyme"/>
+
+    <menuitem name="Informes"
+              id="item_action_informesfinancieros_contables_pyme"
+              parent="item_action_contabilidad_pyme"/>
+
+    <menuitem name="Libro Diario"
+              id="item_action_informes_diario_pyme"
+              parent="item_action_informesfinancieros_contables_pyme"
+              action="account_financial_report.action_journal_ledger_wizard"/>
+			  
+	
+    <menuitem name="Informes Contables"
+              id="item_action_informes_balancesituacion_pyme"
+              parent="item_action_informesfinancieros_contables_pyme"
+              action="mis_builder.mis_report_instance_view_action"/>		
+			  
+	<!-- <menuitem name="Pérdidas y Ganancias"
+              id="item_action_informes_pyg_pyme"
+              parent="item_action_informesfinancieros_contables_pyme"
+              action="account.action_account_report_pl"/>	  
+	-->
+
+
+
+
+  </data>
+</odoo>

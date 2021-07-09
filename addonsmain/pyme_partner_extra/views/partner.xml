@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_partner_inherit_extra_data1_form" model="ir.ui.view">
+        <field name="name">view.res.partner.inherit.extra.data1.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//page[1]" position="after">
+          <page string="Extra Partner">
+           <group>
+		   <group string="Localización">
+             <field name="latitud"/>
+             <field name="longitud"/>
+             <field name="mapslocalizacion"/>
+             <field name="localizacionamigable"/>
+             <field name="rasa_userid" invisible="1"/>
+           </group>
+		   <group string="Actividad y Horarios">
+             <field name="horarioc"/>
+             <field name="actividad"/>
+
+           </group>
+		   </group>
+
+        </page>
+        </xpath>
+      </field>
+    </record>
+
+  <record id="view_res_partner_inherit_extra_data2_form" model="ir.ui.view">
+    <field name="name">view.res.partner.inherit.extra.data2.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+      <field name="function" position="after">
+
+      <field name="rasa_telegramid" string="Telegram ID"/>
+
+      </field>
+    </field>
+  </record>
+  
+  
+
+  
+  
+<!-- 
+  
+
+<data><xpath expr="//field[@name='phone']" position="replace">
+                <label for="phone"/>
+                <div class="o_row">
+                    <field name="phone" widget="phone"/>
+                    <button type="action" name="110" class="btn-sm btn-link mb4 fa fa-envelope-o" aria-label="Send SMS" title="Send SMS" attrs="{'invisible':[('phone', '=', False)]}" context="{'field_name': 'phone'}"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="replace">
+                <label for="mobile"/>
+                <div class="o_row">
+                    <field name="mobile" widget="phone"/>
+                    <button type="action" name="110" class="btn-sm btn-link mb4 fa fa-envelope-o" aria-label="Send SMS" title="Send SMS" attrs="{'invisible':[('mobile', '=', False)]}" context="{'field_name': 'mobile'}"/>
+                    </div>
+                </xpath>
+        </data>
+
+
+
+
+
+
+  <record id="view_res_partner_inherit_extra_dataimage_form" model="ir.ui.view">
+    <field name="name">view.res.partner.inherit.extra.dataimage.form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//page[1]" position="after">
+
+         <page string="Imágenes">
+			<field name="imagenes">
+			
+			
+			</field>
+         </page>
+
+     </xpath>
+
+      </field>
+    </field>
+  </record>
+-->  
+  
+</odoo>

@@ -1,0 +1,65 @@
+#! /bin/bash
+
+### BEGIN INIT INFO
+# Provides:             odoo
+# Required-Start:       $remote_fs $syslog
+# Required-Stop:        $remote_fs $syslog
+# Default-Start:        2 3 4 5
+# Default-Stop:
+# Short-Description:    Odoo 12
+### END INIT INFO
+
+set -e
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+
+USUARIOODOO="odoorasa"
+PUERTO="8069"
+
+
+case "$1" in
+  start)
+
+        if test -f "/opt/$USUARIOODOO/odoo.pid"; then
+         echo "El Fichero PID Existe. Haz primero un stop"
+         rm /opt/$USUARIOODOO/odoo.pid
+        else
+         echo -n "Arrandando ODOO: "
+         ##rm /opt/$USUARIOODOO/odoo.pid
+         runuser -l $USUARIOODOO -c "/opt/${USUARIOODOO}/bin/odoo.sh $USUARIOODOO $PUERTO" &
+         sleep 5
+         echo "[ OK ]"
+        fi
+
+        ;;
+  stop)
+        echo -n "Deteniendo ODOO: "
+        PID="$(ps aux | grep odoo-bin  | grep -v grep | awk {'print $2'})"
+        if [ "$PID" != "" ]; then
+         kill -9 $PID > /dev/null 2>&1 &
+        fi
+        sleep 1
+        rm /opt/${USUARIOODOO}/odoo.pid -f > /dev/null 2>&1 &
+        sleep 1
+        echo "[ OK ]"
+        ;;
+
+  reload|force-reload|restart|try-restart)
+        echo "Reiniciando ODOO"
+        /etc/init.d/odoo stop > /dev/null 2>&1 &
+        sleep 3
+        /etc/init.d/odoo stop
+        sleep 2
+        /etc/init.d/odoo start
+
+        ;;
+
+  status)
+        echo "Estado del ODOO: "
+        ;;
+  *)
+        echo "Usar: /etc/init.d/openerp12 {start|stop|reload|force-reload|restart|try-restart|status}" || true
+        exit 1
+esac
+
+exit 0

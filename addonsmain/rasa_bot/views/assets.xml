@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="rasabot assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/rasa_bot/static/src/js/rasabot_service.js"></script>
+                <script type="text/javascript" src="/rasa_bot/static/src/js/systray_messaging_menu.js"></script>
+            </xpath>
+        </template>
+        
+      
+      <template id="qunit_suite" name="rasa_tests" inherit_id="web.qunit_suite">
+            <xpath expr="//t[@t-set='head']" position="inside">
+                <script type="text/javascript" src="/rasa_bot/static/tests/systray_messaging_menu_tests.js"></script>
+            </xpath>
+        </template>
+     </data>
+</odoo>

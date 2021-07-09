@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+        <record id="stage_draft" model="res.users">
+            <field name="name">PYME</field>
+            <field name="login">PYME</field>
+            <field name="lang">Spanish/Español</field>
+        </record>
+    </data>
+</openerp>
+
+

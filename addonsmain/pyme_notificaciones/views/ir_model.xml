@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+    <record id="view_livechat_notification_view_model_form" model="ir.ui.view">
+        <field name="name">view_livechat_notification_view_model_form</field>
+        <field name="model">ir.model</field>
+        <field name="inherit_id" ref="base.view_model_form"/>
+        <field name="arch" type="xml">
+            <data>
+				    <field name="modules" position="after">
+					<field name="modelonotificado"/>
+					</field>
+					
+            </data>
+        </field>
+    </record>
+
+  </data>
+</odoo>

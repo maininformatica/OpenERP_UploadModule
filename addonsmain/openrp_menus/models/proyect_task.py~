@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+
+from odoo import models, fields, api
+
+class pedidoVenta(models.Model):
+    # Herencia de la tabla de ventas
+    _inherit = 'project.task'
+
+    # Añadir el estado Pedido a ventas
+    relacion = fields.Selection(selection_add=[('pedido', 'Pedido')])
+
