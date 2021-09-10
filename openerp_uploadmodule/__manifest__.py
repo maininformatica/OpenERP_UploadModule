@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "OPENERP -- Upload Module",
+    'name': "OpenERP - Upload Module",
 
     'summary': """
         Modulo para subir ficheros ZIP paquetizados por ODOO
