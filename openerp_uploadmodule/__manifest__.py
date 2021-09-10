@@ -7,7 +7,7 @@
     """,
 
     'description': """
-        Modulo para subir ficheros ZIP paquetizados por ODOO. Module to upload ZIP files packaged by ODOO.
+        <b>Modulo para subir ficheros ZIP paquetizados por ODOO. Module to upload ZIP files packaged by ODOO.</b>
     """,
 
     'author': "MAIN INFORMATICA GANDIA SL",
