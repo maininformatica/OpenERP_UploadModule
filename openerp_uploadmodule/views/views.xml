@@ -1,0 +1,79 @@
+<odoo>
+  <data>
+    	  <record model="ir.ui.view" id="view_openerp_uploadmodulew_tree">
+        <field name="name">view_openerp_uploadmodulew_tree</field>
+        <field name="model">openerp.uploadmodule</field>
+        <field name="arch" type="xml">	
+         <tree string="Upload App">
+          <field name="uploadmode"/>
+          <field name="name"/>
+		  <field name="state"/>
+		 </tree>
+         </field>
+    </record>
+	
+
+	  <record model="ir.ui.view" id="view_openerp_uploadmodulew_form">
+        <field name="name">view_openerp_uploadmodulew_form</field>
+        <field name="model">openerp.uploadmodule</field>
+        <field name="arch" type="xml">	
+       <form string="Upload App">
+                    <field name="state" invisible="1"/>
+                    <group states="init">
+                        <field name="name" readonly="1"/>
+                        <field name="uploadmode"/>
+						<field name="app" domain="[('datas_fname','=','application/zip')]" attrs="{'invisible': [('uploadmode', '!=', 'file')]}"/>
+						<field name="datas_fname" attrs="{'invisible': [('uploadmode', '!=', 'file')]}"/>
+                        <field name="store_fname" attrs="{'invisible': [('uploadmode', '!=', 'file')]}"/>
+                        <field name="mimetype" attrs="{'invisible': [('uploadmode', '!=', 'file')]}"/>
+						<field name="gitfile"  attrs="{'invisible': [('uploadmode', '!=', 'git')]}"/>
+                        <field name="overwrite"/>
+                    </group>
+                    <group states="done" colspan="4">
+                        <span class="o_form_label">The selected App has been successfully upload.
+                        Refresh you App List for install.</span>
+                    </group>
+                    <footer states="init">
+                        <button name="app_install" string="Load" type="object" class="btn-primary"/>
+                        <button special="cancel" string="Cancel" class="btn-secondary"/>
+                    </footer>
+                    <footer states="done">
+                        <button name="reload" string="Refresh App List" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+              </field>
+    </record>
+
+	
+	
+	    <record model="ir.actions.act_window" id="action_openerp_uploadmodulew">
+			<field name="name">Wizard Upload App</field>
+			<field name="res_model">openerp.uploadmodule</field>
+			<!-- <field name="view_mode">form</field>
+			<field name="target">new</field> -->
+			<field name="view_mode">tree,form</field>
+			<field name="target">current</field>
+		
+			<field name="domain"></field>
+			<field name="context">{}</field>
+        </record>
+	
+	
+	
+	
+	            <menuitem id="menu_openerp_uploadmodule"
+                      name="Upload App"
+                      parent="base.menu_management"
+                      sequence="100"/>
+
+
+            <menuitem id="menu_openerp_uploadmodulew"
+                      name="Upload App"
+                      action="action_openerp_uploadmodulew"
+                      parent="menu_openerp_uploadmodule"
+                      sequence="1"/>
+	
+	
+	
+ </data>
+</odoo>
