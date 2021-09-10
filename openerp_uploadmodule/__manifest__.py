@@ -19,6 +19,7 @@
     'category': 'Extra Tools',
     'version': '0.1',
     'license': 'LGPL-3',
+    'images': ['images/openerp_uploadmodule.png'],
 
     # any module necessary for this one to work correctly
     'depends': ['base'],
