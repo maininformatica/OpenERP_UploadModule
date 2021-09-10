@@ -11,7 +11,7 @@
     """,
 
     'author': "MAIN INFORMATICA GANDIA SL",
-    'website': "http://www.main-informatica.com",
+    'website': "https://www.main-informatica.com/magazine/openerp/",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/11.0/odoo/addons/base/module/module_data.xml
