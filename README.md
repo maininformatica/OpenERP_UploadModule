@@ -1,2 +1,3 @@
 # OPENERP
- OpenErp Main
+ OpenErp Public Addons for ODOO V12
+ 
