@@ -6,9 +6,11 @@
         Modulo para subir ficheros ZIP paquetizados por ODOO.
     """,
 
-    'description': """
-        Modulo para subir ficheros ZIP paquetizados por ODOO. Module to upload ZIP files packaged by ODOO.
-    """,
+    'description': ['static/description/openerp_uploadmodule.html'], 
+    
+    # 'description': """
+    #    Modulo para subir ficheros ZIP paquetizados por ODOO. Module to upload ZIP files packaged by ODOO.
+    #""",
 
     'author': "MAIN INFORMATICA GANDIA SL",
     'website': "https://www.main-informatica.com/magazine/openerp/",
