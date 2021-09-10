@@ -8,7 +8,7 @@ import os, sys
 class PartnerNews(models.Model):
      _name = 'openerp.uploadmodule'
      
-     
+   
      name  = fields.Char(string='Nombre')
      overwrite = fields.Boolean(string='Overwrite')
      app = fields.Many2one('ir.attachment', string='Select Zip File', attachment=True)
