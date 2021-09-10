@@ -1,6 +1,0 @@
-###
-### Fichero Generado por ODOO
-### 
-
-
-
