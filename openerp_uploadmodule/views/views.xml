@@ -12,7 +12,6 @@
          </field>
     </record>
 	
-
 	  <record model="ir.ui.view" id="view_openerp_uploadmodulew_form">
         <field name="name">view_openerp_uploadmodulew_form</field>
         <field name="model">openerp.uploadmodule</field>
