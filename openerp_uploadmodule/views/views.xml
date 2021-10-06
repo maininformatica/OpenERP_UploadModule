@@ -1,0 +1,112 @@
+<odoo>
+  <data>
+        <record id="view_appattachment_form" model="ir.ui.view">
+            <field name="name">view_appattachment_form</field>
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <form string="Attachments">
+                   <sheet>
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                            <field name="datas" filename="name" attrs="{'invisible':[('type','=','url')]}"/>
+							<!-- <field name="datas" filename="datas_fname" attrs="{'invisible':[('type','=','url')]}"/> -->
+                            <!-- <field name="datas_fname" invisible="1" attrs="{'invisible':[('type','=','url')]}" class="oe_inline oe_right"/> -->
+							<field name="name" invisible="1"/>
+                            <field name="url" widget="url" attrs="{'invisible':[('type','=','binary')]}"/>
+                        </group>
+                    </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+
+    	  <record model="ir.ui.view" id="view_openerp_uploadmodulew_tree">
+        <field name="name">view_openerp_uploadmodulew_tree</field>
+        <field name="model">openerp.uploadmodule</field>
+        <field name="arch" type="xml">	
+         <tree string="Upload App" delete="false" import="false">
+          <field name="write_date" string="Última Modificación"/>
+          <field name="name"/>
+          <field name="uploadmode"/>
+		  <field name="app"/>
+		  <field name="state"/>
+		 </tree>
+         </field>
+    </record>
+	
+
+	  <record model="ir.ui.view" id="view_openerp_uploadmodulew_form">
+        <field name="name">view_openerp_uploadmodulew_form</field>
+        <field name="model">openerp.uploadmodule</field>
+        <field name="arch" type="xml">	
+       <form string="Upload App" duplicate="false">
+                    <header>
+                        <button name="cancel" string="Cancel and draft" states="done" type="object" confirm="This action will allow you to edit the sources. You're sure?" />
+						<button name="setdone" string="Marcar OK" states="init" type="object" confirm="This action will set done Manually. You're sure?" />
+                        <field name="state" widget="statusbar" statusbar_visible="init,done,error"/>
+                    </header>	   
+                    <group>
+					<group>
+                        <field name="store_fname" invisible="1" attrs="{'readonly': [('state', '!=', 'init')],'invisible': [('uploadmode', '!=', 'file')]}"/>
+                        <field name="name" required="1"/>
+                        <field name="uploadmode" attrs="{'readonly': [('state', '!=', 'init')]}"/>
+						<!-- <field name="app" context="{'default_name': name,'form_view_ref': 'openerp_uploadmodule.view_appattachment_form'}" domain="[('datas_fname','=','application/zip')]" attrs="{'readonly': [('state', '!=', 'init')],'invisible': [('uploadmode', '!=', 'file')]}"/> -->
+						<field name="app" context="{'default_name': name,'form_view_ref': 'openerp_uploadmodule.view_appattachment_form'}" domain="[('mimetype','=','application/zip')]" attrs="{'readonly': [('state', '!=', 'init')],'invisible': [('uploadmode', '!=', 'file')]}"/>
+						<!-- <button name="create_button" string="Subir Fichero" type="object" class="btn-primary"/> -->
+                        <field name="mimetype" readonly="1" attrs="{'readonly': [('state', '!=', 'init')],'invisible': [('uploadmode', '!=', 'file')]}"/>
+						<field name="gitfile"  attrs="{'readonly': [('state', '!=', 'init')],'invisible': [('uploadmode', '!=', 'git')]}"/>
+                        <field invisible="1" name="overwrite" attrs="{'readonly': [('state', '!=', 'init')]}"/>
+                    </group>
+                    <group states="done">
+						<span class="o_form_label"><h2>La aplicación seleccionada se ha cargado correctamente. Tu aplicación / Git está lista para instalar.</h2></span>
+                    </group>
+					</group>
+                    <footer states="init">
+                        <button name="app_install" string="Cargar y Refresca Lista de Aplicaciones" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+              </field>
+    </record>
+
+	
+	
+	    <record model="ir.actions.act_window" id="action_openerp_uploadmodulew">
+			<field name="name">OpenErp Upload App</field>
+			<field name="res_model">openerp.uploadmodule</field>
+			<!-- <field name="view_mode">form</field>
+			<field name="target">new</field> -->
+			<field name="view_mode">tree,form</field>
+			<field name="target">current</field>
+		
+			<field name="domain"></field>
+			<field name="context">{}</field>
+        </record>
+	
+	
+	
+	
+	            <menuitem id="menu_openerp_uploadmodule"
+                      name="Upload App"
+                      action="action_openerp_uploadmodulew"
+                      parent="base.menu_management"
+                      sequence="100"/>
+
+<!-- 
+            <menuitem id="menu_openerp_uploadmodulew"
+                      name="Upload App"
+
+                      parent="menu_openerp_uploadmodule"
+                      sequence="1"/>
+	
+	-->
+	
+ </data>
+</odoo>
